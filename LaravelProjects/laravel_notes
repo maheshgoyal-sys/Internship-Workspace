@@ -1,0 +1,46 @@
+Laravel kya hota hai?
+
+👉 Laravel ek PHP backend framework hai
+
+Matlab:
+
+Website ka backend (server side) banane ke kaam aata hai
+Data, database, login, API sab handle karta hai
+⚙️ Simple meaning
+
+👉 Frontend = jo user dekhta hai (Angular, HTML, React)
+
+👉 Backend = jo behind the scenes kaam karta hai (Laravel)
+
+🏗️ Laravel kya karta hai?
+
+Laravel ye sab kaam easy bana deta hai:
+
+1. 🔐 Login / Signup system
+User register
+Login
+Password security
+2. 📦 Database handling
+Data save karna
+Data fetch karna
+Update / delete
+
+(MySQL, MongoDB etc.)
+
+3. 🌐 API banana
+
+Frontend (Angular) ko data bhejna:
+
+Example:
+
+/api/students
+/api/colleges
+4. 🧾 CRUD operations
+Create
+Read
+Update
+Delete
+5. 🛡️ Security
+Password hashing
+Authentication
+Middleware protection

@@ -1,0 +1,45 @@
+Angular kya hota hai?
+
+👉 Angular ek frontend framework hai (Google ne banaya hai)
+
+Iska use hota hai:
+
+🌐 Web applications banane ke liye
+⚡ Single Page Applications (SPA) ke liye
+🔄 Dynamic UI (data change hote hi screen update)
+🤔 Angular kyu use karte hain?
+
+Without Angular:
+
+HTML + JS manually manage karna padta hai
+Large project messy ho jata hai
+
+With Angular:
+
+Components system milta hai
+Code reusable hota hai
+Routing easy hoti hai
+Data automatically UI me update hota hai
+
+omponents create kar
+ng generate component header
+ng generate component home
+ng generate component footer
+
+app.component.html me add kar
+<app-header></app-header>
+
+<app-home></app-home>
+
+<app-footer></app-footer>
+app.component.ts check (IMPORTANT)
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  imports: [],
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent {}
