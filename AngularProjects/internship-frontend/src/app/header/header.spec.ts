@@ -1,22 +1,13 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
-import { Header } from './header';
+@Component({
+  selector: 'app-header',
+  standalone: true,
+  imports: [RouterLink],
+  templateUrl: './header.html',
+  styleUrl: './header.css'
+})
+export class HeaderComponent {
 
-describe('Header', () => {
-  let component: Header;
-  let fixture: ComponentFixture<Header>;
-
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [Header],
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(Header);
-    component = fixture.componentInstance;
-    await fixture.whenStable();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+}

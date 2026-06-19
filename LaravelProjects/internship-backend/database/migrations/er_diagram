@@ -1,0 +1,24 @@
++-------------+          +-------------+
+| departments |          |    users    |
++-------------+          +-------------+
+| id (PK)     |<-------- | id (PK)     |
+| name        |          | name        |
+| description |          | email       |
++-------------+          | password    |
+        ^                | role        |
+        |                | dept_id FK  |
+        |                +-------------+
+        |
+        |
++-----------------------------+
+|           tickets           |
++-----------------------------+
+| id (PK)                     |
+| title                       |
+| description                 |
+| status                      |
+| priority                    |
+| user_id (FK)               | ---> users.id
+| assigned_to (FK)           | ---> users.id
+| department_id (FK)         | ---> departments.id
++-----------------------------+
