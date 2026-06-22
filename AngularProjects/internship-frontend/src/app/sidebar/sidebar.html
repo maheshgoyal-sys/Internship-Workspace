@@ -1,0 +1,10 @@
+<button class="menu-btn" (click)="toggleSidebar()">
+  ☰
+</button>
+
+<nav class="sidebar" [class.open]="isOpen">
+  <a routerLink="/home" routerLinkActive="active">Home</a>
+  <a routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
+  <a routerLink="/profile" routerLinkActive="active">Profile</a>
+  <a routerLink="/contact" routerLinkActive="active">Contact</a>
+</nav>
