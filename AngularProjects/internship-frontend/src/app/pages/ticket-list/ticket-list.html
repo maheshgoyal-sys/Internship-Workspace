@@ -1,0 +1,25 @@
+<div class="container mt-4">
+  <h2>Ticket List</h2>
+
+  <table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th>Ticket ID</th>
+        <th>Title</th>
+        <th>Status</th>
+        <th>Priority</th>
+        <th>Assigned User</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let ticket of tickets">
+        <td>{{ ticket.ticketId }}</td>
+        <td>{{ ticket.title }}</td>
+        <td>{{ ticket.status }}</td>
+        <td>{{ ticket.priority }}</td>
+        <td>{{ ticket.assignedUser }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
