@@ -1,25 +1,38 @@
-<div class="container mt-4">
-  <h2>Ticket List</h2>
+<h3>Ticket List</h3>
+<table border="1">
+  <thead>
+    <tr>
+      <th>Ticket ID</th>
+      <th>Title</th>
+      <th>Status</th>
+      <th>Priority</th>
+      <th>Assigned User</th>
+    </tr>
+  </thead>
 
-  <table class="table table-bordered table-striped">
-    <thead>
-      <tr>
-        <th>Ticket ID</th>
-        <th>Title</th>
-        <th>Status</th>
-        <th>Priority</th>
-        <th>Assigned User</th>
-      </tr>
-    </thead>
+  <tbody>
+    <tr>
+      <td>2</td>
+      <td>Login Issue</td>
+      <td>Open</td>
+      <td>High</td>
+      <td>1</td>
+    </tr>
 
-    <tbody>
-      <tr *ngFor="let ticket of tickets">
-        <td>{{ ticket.ticketId }}</td>
-        <td>{{ ticket.title }}</td>
-        <td>{{ ticket.status }}</td>
-        <td>{{ ticket.priority }}</td>
-        <td>{{ ticket.assignedUser }}</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
+    <tr>
+      <td>3</td>
+      <td>Password Reset Request</td>
+      <td>Open</td>
+      <td>Medium</td>
+      <td>1</td>
+    </tr>
+
+    <tr>
+      <td>4</td>
+      <td>Email Not Working</td>
+      <td>In Progress</td>
+      <td>High</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>

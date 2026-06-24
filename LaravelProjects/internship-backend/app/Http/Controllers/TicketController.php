@@ -3,15 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Ticket;
 
 class TicketController extends Controller
 {
     // List Tickets
     public function index()
     {
+        $tickets = Ticket::all();
+
         return response()->json([
             'success' => true,
-            'message' => 'All tickets fetched successfully'
+            'message' => 'All tickets fetched successfully',
+            'data' => $tickets
         ]);
     }
 
