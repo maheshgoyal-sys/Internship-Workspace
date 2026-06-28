@@ -4,7 +4,7 @@ import { Dashboard } from './pages/dashboard/dashboard';
 import { Profile } from './pages/profile/profile';
 import { Contact } from './pages/contact/contact';
 import { HomeComponent } from './pages/home/home.component';
-import { TicketListComponent } from './pages/ticket-list/ticket-list';
+import { TicketList } from './pages/ticket-list/ticket-list';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -14,7 +14,7 @@ export const routes: Routes = [
   { path: 'profile', component: Profile },
   { path: 'contact', component: Contact },
 
-  { path: 'tickets', component: TicketListComponent },
+  { path: 'tickets', component: TicketList },
 
   { path: '**', redirectTo: 'dashboard' }
 ];
