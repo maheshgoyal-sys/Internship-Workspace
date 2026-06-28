@@ -1,13 +1,13 @@
 /* ── Variables ─────────────────────────────────────────────────── */
 :host {
-  --accent:        #2563eb;
-  --accent-hover:  #1d4ed8;
-  --border:        #e5e7eb;
-  --surface:       #f9fafb;
+  --accent:        #0d9488;
+  --accent-hover:  #0f766e;
+  --border:        #e2e8f0;
+  --surface:       #f8fafc;
   --white:         #ffffff;
-  --text-primary:  #111827;
-  --text-secondary:#6b7280;
-  --text-muted:    #9ca3af;
+  --text-primary:  #0f172a;
+  --text-secondary:#64748b;
+  --text-muted:    #94a3b8;
   --radius:        8px;
   --font:          'Inter', system-ui, sans-serif;
   font-family: var(--font);
@@ -151,7 +151,7 @@
 
 .stat-icon svg { width: 22px; height: 22px; }
 
-.stat-icon.blue   { background: #eff6ff; color: #2563eb; }
+.stat-icon.blue   { background: #f0fdfa; color: #0d9488; }
 .stat-icon.green  { background: #f0fdf4; color: #16a34a; }
 .stat-icon.orange { background: #fff7ed; color: #ea580c; }
 .stat-icon.red    { background: #fef2f2; color: #dc2626; }
@@ -235,7 +235,7 @@ select {
   font-size: 13px;
   color: var(--text-primary);
   background: var(--white)
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E")
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E")
     no-repeat right 8px center;
   -webkit-appearance: none;
   appearance: none;
@@ -351,7 +351,7 @@ td {
 }
 
 .badge-open        { background: #dcfce7; color: #15803d; }
-.badge-in-progress { background: #dbeafe; color: #1d4ed8; }
+.badge-in-progress { background: #ccfbf1; color: #0f766e; }
 .badge-closed      { background: #f1f5f9; color: #475569; }
 .badge-pending     { background: #fef9c3; color: #a16207; }
 
@@ -372,8 +372,8 @@ td {
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  background: #c7d2fe;
-  color: #3730a3;
+  background: #99f6e4;
+  color: #115e59;
   font-size: 11px;
   font-weight: 600;
   display: flex;
@@ -409,9 +409,9 @@ td {
 }
 
 .action-btn.view,
-.action-btn.edit  { color: #2563eb; }
+.action-btn.edit  { color: #0d9488; }
 .action-btn.view:hover,
-.action-btn.edit:hover { background: #eff6ff; }
+.action-btn.edit:hover { background: #f0fdfa; }
 
 .action-btn.delete              { color: #ef4444; border-color: #fecaca; }
 .action-btn.delete:hover        { background: #fef2f2; }

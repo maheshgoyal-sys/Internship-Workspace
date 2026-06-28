@@ -1,3 +1,19 @@
-<header>
-  <h2>My Application</h2>
+<header class="app-header">
+
+  <button class="header-bell" (click)="openNotifications()" aria-label="Notifications">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+         stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M18 8a6 6 0 00-12 0c0 7-3 9-3 9h18s-3-2-3-9"/>
+      <path d="M13.73 21a2 2 0 01-3.46 0"/>
+    </svg>
+    @if (hasUnreadNotifications) {
+      <span class="header-bell-dot"></span>
+    }
+  </button>
+
+  <div class="header-user">
+    <div class="header-avatar">MG</div>
+    <span class="header-name">Mahesh Goyal</span>
+  </div>
+
 </header>

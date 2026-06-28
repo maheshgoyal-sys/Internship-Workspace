@@ -472,3 +472,7 @@ describe('TicketList — template', () => {
     h2.verify();
   });
 });
+
+function spyOn(window: Window & typeof globalThis, arg1: string) {
+  throw new Error('Function not implemented.');
+}
