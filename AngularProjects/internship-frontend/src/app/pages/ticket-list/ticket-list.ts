@@ -243,7 +243,14 @@ export class TicketList implements OnInit {
       d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })
     );
   }
+// Add this method inside your TicketList component class (ticket-list.ts)
 
+onAvatarError(event: Event): void {
+     const img = event.target as HTMLImageElement;
+     img.style.display = 'none';
+     const fallback = img.nextElementSibling as HTMLElement | null;
+     if (fallback) fallback.style.display = 'flex';
+   }
   ticketDate(t: Ticket): string {
     return this.formatDate(t.created_at ?? t.createdAt);
   }

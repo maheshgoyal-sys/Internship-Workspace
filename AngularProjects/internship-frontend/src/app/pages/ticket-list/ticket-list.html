@@ -207,8 +207,17 @@
 
           <td class="col-user">
             <div class="assignee">
-              <div class="avatar">{{ initials(assigneeName(t)) }}</div>
-              <span>{{ assigneeName(t) || 'Unassigned' }}</span>
+              <div class="avatar">
+                <img
+                  [src]="'https://api.dicebear.com/10.x/lorelei/svg?seed=' + (t.assigned_user || 'unassigned')"
+                  [alt]="t.assigned_user || 'Unassigned'"
+                  (error)="onAvatarError($event)">
+                <!-- <span class="avatar-fallback">{{ t.assigned_user?.charAt(0) || 'U' }}</span> -->
+              </div>
+
+              <span>
+                {{ t.assigned_user || 'Unassigned' }}
+              </span>
             </div>
           </td>
 
