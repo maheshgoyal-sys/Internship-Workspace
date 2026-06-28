@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-
+import { Router } from '@angular/router';
 export interface Ticket {
   id: number;
   title: string;
@@ -54,7 +54,10 @@ export class TicketList implements OnInit {
   statInProgress = 0;
   statClosed = 0;
 
-  constructor(private http: HttpClient) {}
+  constructor(
+  private http: HttpClient,
+  private router: Router
+) {}
 
   ngOnInit(): void {
     this.fetchTickets();
@@ -268,10 +271,9 @@ export class TicketList implements OnInit {
     });
   }
 
-  createTicket(): void {
-    // navigate to create route
-    alert('Open create ticket form');
-  }
+ createTicket(): void {
+  this.router.navigate(['/tickets/create']);
+}
 
   refresh(): void {
     this.fetchTickets();
