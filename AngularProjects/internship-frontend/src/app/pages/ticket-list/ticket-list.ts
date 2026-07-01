@@ -258,9 +258,8 @@ onAvatarError(event: Event): void {
   // ── actions ──────────────────────────────────────────
 
   viewTicket(id: number): void {
-    // navigate to detail route, e.g. this.router.navigate(['/tickets', id]);
-    alert(`View ticket #${id}`);
-  }
+  this.router.navigate(['/ticket', id]);
+}
 
   editTicket(id: number): void {
     // navigate to edit route

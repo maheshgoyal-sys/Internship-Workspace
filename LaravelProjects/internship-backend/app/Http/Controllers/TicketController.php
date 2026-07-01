@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Ticket;
 
+
 class TicketController extends Controller
 {
     // Get all tickets
@@ -34,6 +35,33 @@ class TicketController extends Controller
         'success' => true,
         'data' => $tickets
     ]);
+}
+
+public function show($id)
+{
+    $ticket = Ticket::with(['assignedUser', 'department'])
+        ->find($id);
+
+    if (!$ticket) {
+        return response()->json([
+            'message' => 'Ticket not found'
+        ], 404);
+    }
+
+    return response()->json([
+  
+    'id' => $ticket->id,
+    'title' => $ticket->title,
+    'description' => $ticket->description,
+    'status' => $ticket->status,
+    'priority' => $ticket->priority,
+
+    'assigned_user' => $ticket->assignedUser?->name,
+    'department' => $ticket->department?->name,
+
+    'created_at' => $ticket->created_at
+]);
+   
 }
 
     // Create ticket

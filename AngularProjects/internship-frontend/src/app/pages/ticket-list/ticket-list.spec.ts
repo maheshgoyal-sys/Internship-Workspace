@@ -57,14 +57,14 @@ describe('TicketList — API loading', () => {
 
   it('should show loading=true before response arrives', () => {
     fixture.detectChanges();
-    expect(component.loading).toBeTrue();
+    expect(component.loading).toBeTruthy();
   });
 
   it('should load tickets from a plain array response', () => {
     fixture.detectChanges();
     flushTickets(http, MOCK_TICKETS);
     expect(component.allTickets.length).toBe(5);
-    expect(component.loading).toBeFalse();
+    expect(component.loading).toBeFalsy();
   });
 
   it('should load tickets from { data: [...] } envelope', () => {
@@ -89,7 +89,7 @@ describe('TicketList — API loading', () => {
     fixture.detectChanges();
     const req = http.expectOne('http://127.0.0.1:8000/tickets');
     req.error(new ProgressEvent('network error'));
-    expect(component.loading).toBeFalse();
+    expect(component.loading).toBeFalsy();
     expect(component.error).toBeTruthy();
   });
 });

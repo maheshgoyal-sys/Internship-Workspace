@@ -1,0 +1,102 @@
+
+<div class="td-page">
+
+  <!-- ── Back button (always visible) ── -->
+  <button class="btn-back" (click)="goBack()">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+         stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+      <polyline points="15 18 9 12 15 6"/>
+    </svg>
+    Back to Ticket List
+</button>
+
+  <!-- ── Error Banner ── -->
+  <div class="td-error" *ngIf="error">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+         stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/>
+      <line x1="12" y1="16" x2="12.01" y2="16"/>
+    </svg>
+    {{ error }}
+  </div>
+
+  <!-- ── Loading state ── -->
+  <div class="td-loading" *ngIf="loading">
+    <div class="spinner"></div>
+    <p>Loading ticket…</p>
+  </div>
+
+  <!-- ── Ticket content ── -->
+  <div *ngIf="!loading && !error && ticket as t">
+
+    <div class="td-page-header">
+      <div>
+        <nav class="td-breadcrumb" aria-label="breadcrumb">
+          <a href="#" (click)="goBack()">Tickets</a>
+          <span class="sep">/</span>
+          <span class="active">{{ t.id }}</span>
+        </nav>
+        <h1 class="td-page-title">{{ t.title }}</h1>
+      </div>
+
+      <div class="td-header-badges">
+        <span class="badge" [ngClass]="statusClass(t.status)">{{ t.status?.replace('_',' ') }}</span>
+        <span class="badge" [ngClass]="priorityClass(t.priority)">{{ t.priority }}</span>
+      </div>
+    </div>
+
+    <div class="td-grid">
+
+      <!-- Main column -->
+      <div class="td-main">
+        <div class="td-card">
+          <div class="td-card-head">
+            <span class="td-id-pill">#{{ t.id }}</span>
+            <h2>Description</h2>
+          </div>
+          <p class="td-description">{{ t.description }}</p>
+        </div>
+      </div>
+
+      <!-- Sidebar column -->
+      <div class="td-side">
+        <div class="td-card">
+          <h3 class="td-card-title">Details</h3>
+
+          <div class="td-detail-row">
+            <span class="td-detail-label">Status</span>
+            <span class="badge" [ngClass]="statusClass(t.status)">{{ t.status?.replace('_',' ') }}</span>
+          </div>
+
+          <div class="td-detail-row">
+            <span class="td-detail-label">Priority</span>
+            <span class="badge" [ngClass]="priorityClass(t.priority)">{{ t.priority }}</span>
+          </div>
+
+          <div class="td-detail-row">
+            <span class="td-detail-label">Assigned User</span>
+            <div class="assignee">
+              <div class="avatar">
+                <img
+                  [src]="'https://api.dicebear.com/10.x/lorelei/svg?seed=' + assignedUserName">
+              </div>
+              <span>{{ assignedUserName }}</span>
+            </div>
+          </div>
+
+          <div class="td-detail-row">
+            <span class="td-detail-label">Department</span>
+            <span class="td-detail-value">{{ departmentName }}</span>
+          </div>
+
+          <div class="td-detail-row no-border">
+            <span class="td-detail-label">Created At</span>
+            <span class="td-detail-value">{{ t.created_at | date:'medium' }}</span>
+          </div>
+        </div>
+    </div>
+
+    </div><!-- /td-grid -->
+  </div>
+
+</div><!-- /td-page -->
