@@ -1,42 +1,59 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-create-ticket',
   standalone: true,
-  imports: [CommonModule, FormsModule, FormsModule, HttpClientModule],
+  imports: [ReactiveFormsModule],
   templateUrl: './create-ticket.html',
-  styleUrl: './create-ticket.css',
+  styleUrls: ['./create-ticket.css']
 })
+
+
 export class CreateTicket {
 
-  ticket = {
-    user_id: 1,
-    department_id: 1,
-    title: '',
-    description: '',
-    priority: 'Medium'
-  };
-  private readonly API = 'http://127.0.0.1:8000';
+  ticketForm: FormGroup;
 
-constructor(
-  private http: HttpClient,
-  private router: Router
-) {}
+  constructor(
+    private fb: FormBuilder,
+    private http: HttpClient
+  ) {
 
- saveTicket() {
-  this.http.post(`${this.API}/tickets`, this.ticket).subscribe({
-    next: (res) => {
-      console.log(res);
-      alert('Ticket Created Successfully');
-      this.router.navigate(['/tickets']);
-    },
-    error: (err) => {
-      console.error(err);
-      alert('Ticket Create Failed');
+    this.ticketForm = this.fb.group({
+      user_id: ['', Validators.required],
+      department_id: ['', Validators.required],
+      title: ['', Validators.required],
+      description: ['', Validators.required],
+      priority: ['Low', Validators.required],
+      assigned_user_id: ['']
+    });
+
+  }
+
+  onSubmit() {
+
+    if (this.ticketForm.invalid) {
+      this.ticketForm.markAllAsTouched();
+      return;
     }
-  });
-}
+
+    console.log(this.ticketForm.value);
+
+    this.http.post('http://127.0.0.1:8000/tickets', this.ticketForm.value)
+      .subscribe({
+        next: (res: any) => {
+          console.log(res);
+          alert('Ticket Created Successfully');
+          this.ticketForm.reset();
+        },
+        error: (err) => {
+          console.log(err);
+          alert('Ticket Create Failed');
+        }
+      });
+
+  }
+  
+
 }

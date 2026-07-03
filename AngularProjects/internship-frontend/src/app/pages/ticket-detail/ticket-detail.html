@@ -1,3 +1,7 @@
+<!-- Add Manrope font in index.html <head> if not already present:
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+-->
 
 <div class="td-page">
 
@@ -33,15 +37,28 @@
       <div>
         <nav class="td-breadcrumb" aria-label="breadcrumb">
           <a href="#" (click)="goBack()">Tickets</a>
-          <span class="sep">/</span>
+          <span class="sep">›</span>
           <span class="active">{{ t.id }}</span>
         </nav>
         <h1 class="td-page-title">{{ t.title }}</h1>
       </div>
 
-      <div class="td-header-badges">
-        <span class="badge" [ngClass]="statusClass(t.status)">{{ t.status?.replace('_',' ') }}</span>
-        <span class="badge" [ngClass]="priorityClass(t.priority)">{{ t.priority }}</span>
+      <!-- NOTE: purely presentational — wire up (click) handlers when ready -->
+      <div class="td-header-actions">
+        <button class="btn-outline" type="button">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4Z"/>
+          </svg>
+          Edit Ticket
+        </button>
+        <!-- <button class="btn-primary" type="button">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 10 4 15 9 20"/>
+            <path d="M20 4v7a4 4 0 0 1-4 4H4"/>
+          </svg>
+          Post Reply
+        </button> -->
       </div>
     </div>
 
@@ -51,7 +68,12 @@
       <div class="td-main">
         <div class="td-card">
           <div class="td-card-head">
-            <span class="td-id-pill">#{{ t.id }}</span>
+            <span class="td-card-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="21" y1="10" x2="3" y2="10"/><line x1="21" y1="6" x2="3" y2="6"/>
+                <line x1="21" y1="14" x2="3" y2="14"/><line x1="17" y1="18" x2="3" y2="18"/>
+              </svg>
+            </span>
             <h2>Description</h2>
           </div>
           <p class="td-description">{{ t.description }}</p>
@@ -61,40 +83,58 @@
       <!-- Sidebar column -->
       <div class="td-side">
         <div class="td-card">
-          <h3 class="td-card-title">Details</h3>
+          <h3 class="td-card-title">Ticket Intelligence</h3>
 
-          <div class="td-detail-row">
-            <span class="td-detail-label">Status</span>
-            <span class="badge" [ngClass]="statusClass(t.status)">{{ t.status?.replace('_',' ') }}</span>
+          <div>
+            <p class="td-section-label">Ticket ID</p>
+            <p class="td-ticket-id">#{{ t.id }}</p>
           </div>
 
-          <div class="td-detail-row">
-            <span class="td-detail-label">Priority</span>
-            <span class="badge" [ngClass]="priorityClass(t.priority)">{{ t.priority }}</span>
+          <div class="td-status-priority">
+            <div>
+              <p class="td-section-label">Current Status</p>
+              <span class="badge" [ngClass]="statusClass(t.status)">
+                <span class="dot"></span>{{ t.status?.replace('_',' ') }}
+              </span>
+            </div>
+            <div>
+              <p class="td-section-label">Priority</p>
+              <span class="badge" [ngClass]="priorityClass(t.priority)">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                  <line x1="6" y1="20" x2="6" y2="14"/><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="6"/>
+                </svg>
+                {{ t.priority }}
+              </span>
+            </div>
           </div>
 
-          <div class="td-detail-row">
-            <span class="td-detail-label">Assigned User</span>
-            <div class="assignee">
+          <div>
+            <p class="td-section-label">Owner</p>
+            <div class="td-owner-card">
               <div class="avatar">
                 <img
                   [src]="'https://api.dicebear.com/10.x/lorelei/svg?seed=' + assignedUserName">
               </div>
-              <span>{{ assignedUserName }}</span>
+              <div>
+                <div class="td-owner-name">{{ assignedUserName }}</div>
+                <div class="td-owner-dept">{{ departmentName }}</div>
+              </div>
             </div>
           </div>
 
-          <div class="td-detail-row">
-            <span class="td-detail-label">Department</span>
-            <span class="td-detail-value">{{ departmentName }}</span>
-          </div>
+          <div>
+            <div class="td-detail-row">
+              <span class="td-detail-label">Department</span>
+              <span class="td-detail-value">{{ departmentName }}</span>
+            </div>
 
-          <div class="td-detail-row no-border">
-            <span class="td-detail-label">Created At</span>
-            <span class="td-detail-value">{{ t.created_at | date:'medium' }}</span>
+            <div class="td-detail-row">
+              <span class="td-detail-label">Created Date</span>
+              <span class="td-detail-value">{{ t.created_at | date:'mediumDate' }}</span>
+            </div>
           </div>
         </div>
-    </div>
+      </div>
 
     </div><!-- /td-grid -->
   </div>

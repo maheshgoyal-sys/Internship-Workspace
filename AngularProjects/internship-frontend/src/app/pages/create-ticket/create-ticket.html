@@ -1,61 +1,118 @@
-<div class="ct-page">
+<div class="page-head">
+  <div class="breadcrumb">TICKETS &nbsp;&gt;&nbsp; <b>NEW TICKET</b></div>
+  <h1>Create New Ticket</h1>
+  <div class="subtext">Complete the form below to initiate a support request. Ensure all required identifiers are accurate for faster processing.</div>
+</div>
 
-  <div class="ct-card">
+<form [formGroup]="ticketForm" (ngSubmit)="onSubmit()">
+  <div class="layout">
 
-    <div class="ct-header">
-      <h2 class="ct-title">Create Ticket</h2>
-      <p class="ct-subtitle">Fill in the details below to raise a new support ticket.</p>
-    </div>
+    <!-- LEFT: main form card -->
+    <div class="card">
 
-    <form (ngSubmit)="saveTicket()">
+      <div class="field-row">
+        <div class="field">
+          <label for="user_id">User ID</label>
+          <input id="user_id" type="number" formControlName="user_id" placeholder="e.g. USR-9821-X">
+          <div class="error" *ngIf="ticketForm.get('user_id')?.touched && ticketForm.get('user_id')?.invalid">
+            <small *ngIf="ticketForm.get('user_id')?.errors?.['required']">
+              User ID is required.
+            </small>
+            <small *ngIf="ticketForm.get('user_id')?.errors?.['min']">
+              Enter a valid User ID.
+            </small>
+          </div>
+          <div class="hint">Unique customer identification number</div>
+        </div>
 
-      <div class="form-group">
-        <label>Title</label>
-        <input
-          type="text"
-          name="title"
-          placeholder="e.g. Unable to reset password"
-          [(ngModel)]="ticket.title"
-          required>
+        <div class="field">
+          <label for="department_id">Department ID</label>
+          <input id="department_id" type="number" formControlName="department_id" placeholder="e.g. DEPT-SUP-01">
+          <div class="error" *ngIf="ticketForm.get('department_id')?.touched && ticketForm.get('department_id')?.invalid">
+            <small *ngIf="ticketForm.get('department_id')?.errors?.['required']">
+              Department ID is required.
+            </small>
+          </div>
+          <div class="hint">Internal department reference code</div>
+        </div>
       </div>
 
-      <div class="form-group">
-        <label>Description</label>
-        <textarea
-          name="description"
-          rows="5"
-          placeholder="Describe the issue in detail..."
-          [(ngModel)]="ticket.description"
-          required>
-        </textarea>
+      <div class="field">
+        <label for="title">Title</label>
+        <input id="title" type="text" formControlName="title" placeholder="Summarize the core issue or request">
+        <div class="error" *ngIf="ticketForm.get('title')?.touched && ticketForm.get('title')?.invalid">
+          <small *ngIf="ticketForm.get('title')?.errors?.['required']">
+            Title is required.
+          </small>
+          <small *ngIf="ticketForm.get('title')?.errors?.['minlength']">
+            Minimum 5 characters.
+          </small>
+          <small *ngIf="ticketForm.get('title')?.errors?.['maxlength']">
+            Maximum 100 characters.
+          </small>
+        </div>
       </div>
 
-      <div class="form-group">
-        <label>Priority</label>
-
-        <select
-          name="priority"
-          [(ngModel)]="ticket.priority">
-
-          <option value="Low">Low</option>
-          <option value="Medium">Medium</option>
-          <option value="High">High</option>
-
-        </select>
+      <div class="field">
+        <label for="description">Description</label>
+        <textarea id="description" formControlName="description" placeholder="Provide a detailed log of events, steps to reproduce, or specific requirements..."></textarea>
+        <div class="error" *ngIf="ticketForm.get('description')?.touched && ticketForm.get('description')?.invalid">
+          <small *ngIf="ticketForm.get('description')?.errors?.['required']">
+            Description is required.
+          </small>
+          <small *ngIf="ticketForm.get('description')?.errors?.['minlength']">
+            Minimum 20 characters.
+          </small>
+        </div>
       </div>
 
-      <div class="form-actions">
-        <button type="submit" class="btn-primary">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-               stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
-            <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
-          </svg>
+      <div class="actions">
+        <button type="button" class="btn btn-cancel">Cancel Request</button>
+        <button
+          class="btn btn-submit"
+          type="submit"
+          [disabled]="ticketForm.invalid">
           Create Ticket
         </button>
       </div>
+    </div>
 
-    </form>
+    <!-- RIGHT: ticket properties panel -->
+    <div class="card">
+      <div class="panel-title">⚙️ Ticket Properties</div>
+
+      <div class="section-label">! SEVERITY LEVEL</div>
+
+      <label class="priority-option" [class.selected]="ticketForm.get('priority')?.value === 'Low'">
+        <input type="radio" formControlName="priority" value="Low">
+        <div class="priority-body">
+          <div class="priority-title">Low Priority <span class="badge badge-low">LOW</span></div>
+          <div class="priority-desc">Non-critical requests</div>
+        </div>
+      </label>
+
+      <label class="priority-option" [class.selected]="ticketForm.get('priority')?.value === 'Medium'">
+        <input type="radio" formControlName="priority" value="Medium">
+        <div class="priority-body">
+          <div class="priority-title">Medium Priority <span class="badge badge-medium">MEDIUM</span></div>
+          <div class="priority-desc">Standard service level</div>
+        </div>
+      </label>
+
+      <label class="priority-option" [class.selected]="ticketForm.get('priority')?.value === 'High'">
+        <input type="radio" formControlName="priority" value="High">
+        <div class="priority-body">
+          <div class="priority-title">High Priority <span class="badge badge-high">HIGH</span></div>
+          <div class="priority-desc">Urgent production issues</div>
+        </div>
+      </label>
+
+      <div class="assignment">
+        <div class="section-label" style="margin-bottom:8px;">📌 ASSIGNMENT</div>
+        <label for="assigned_user_id">Assigned Agent ID</label>
+        <input id="assigned_user_id" type="number" formControlName="assigned_user_id" placeholder="Enter Agent ID (Optional)">
+      </div>
+    </div>
 
   </div>
-
-</div>
+</form>
