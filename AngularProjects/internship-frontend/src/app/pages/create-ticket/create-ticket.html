@@ -14,7 +14,10 @@
         <div class="field">
           <label for="user_id">User ID</label>
           <input id="user_id" type="number" formControlName="user_id" placeholder="e.g. USR-9821-X">
-          <div class="error" *ngIf="ticketForm.get('user_id')?.touched && ticketForm.get('user_id')?.invalid">
+          <!-- <div class="error" *ngIf="ticketForm.get('user_id')?.touched  && ticketForm.get('user_id')?.invalid"> -->
+            <div class="error"
+     *ngIf="(ticketForm.get('user_id')?.touched || submitted)
+            && ticketForm.get('user_id')?.invalid">
             <small *ngIf="ticketForm.get('user_id')?.errors?.['required']">
               User ID is required.
             </small>
@@ -27,20 +30,40 @@
 
         <div class="field">
           <label for="department_id">Department ID</label>
-          <input id="department_id" type="number" formControlName="department_id" placeholder="e.g. DEPT-SUP-01">
-          <div class="error" *ngIf="ticketForm.get('department_id')?.touched && ticketForm.get('department_id')?.invalid">
+          <input id="department_id" type="number" formControlName="department_id" placeholder="e.g. 1">
+          <!-- <div class="error" *ngIf="ticketForm.get('department_id')?.touched && ticketForm.get('department_id')?.invalid"> -->
+            <div class="error"
+     *ngIf="(ticketForm.get('department_id')?.touched || submitted)
+            && ticketForm.get('department_id')?.invalid">
             <small *ngIf="ticketForm.get('department_id')?.errors?.['required']">
               Department ID is required.
             </small>
           </div>
           <div class="hint">Internal department reference code</div>
+          <div class="lookup-pill" [ngClass]="{
+            'lookup-found': lookupStatus === 'found',
+            'lookup-loading': lookupStatus === 'loading',
+            'lookup-not-found': lookupStatus === 'not-found'
+          }" *ngIf="lookupMessage">
+            {{ lookupMessage }}
+          </div>
+          <div class="lookup-card" *ngIf="departmentLookup">
+            <strong>{{ departmentLookup.name }}</strong>
+            <span>Department ID: {{ departmentLookup.id }}</span>
+          </div>
         </div>
       </div>
 
       <div class="field">
         <label for="title">Title</label>
-        <input id="title" type="text" formControlName="title" placeholder="Summarize the core issue or request">
-        <div class="error" *ngIf="ticketForm.get('title')?.touched && ticketForm.get('title')?.invalid">
+        <!-- <input id="title" type="text" formControlName="title" placeholder="Summarize the core issue or request"> -->
+         <input
+  id="title"
+  type="text"
+  formControlName="title"
+  placeholder="Summarize the core issue or request"
+  [class.invalid-input]="(ticketForm.get('title')?.touched || submitted) && ticketForm.get('title')?.invalid">
+        <div class="error" *ngIf="(ticketForm.get('title')?.touched || submitted) && ticketForm.get('title')?.invalid">
           <small *ngIf="ticketForm.get('title')?.errors?.['required']">
             Title is required.
           </small>
@@ -67,7 +90,10 @@
       </div>
 
       <div class="actions">
-        <button type="button" class="btn btn-cancel">Cancel Request</button>
+        <!-- <button type="button" class="btn btn-cancel">Cancel Request</button> -->
+        <div class="form-error" *ngIf="ticketForm.invalid">
+  Please fix the highlighted fields before creating the ticket.
+</div>
         <button
           class="btn btn-submit"
           type="submit"
@@ -111,6 +137,25 @@
         <div class="section-label" style="margin-bottom:8px;">📌 ASSIGNMENT</div>
         <label for="assigned_user_id">Assigned Agent ID</label>
         <input id="assigned_user_id" type="number" formControlName="assigned_user_id" placeholder="Enter Agent ID (Optional)">
+        <div class="lookup-pill" [ngClass]="{
+          'lookup-found': assigneeStatus === 'found',
+          'lookup-loading': assigneeStatus === 'loading',
+          'lookup-not-found': assigneeStatus === 'not-found'
+        }" *ngIf="assigneeMessage">
+          {{ assigneeMessage }}
+        </div>
+        <div class="lookup-card" *ngIf="assigneeLookup">
+          <div class="lookup-avatar" *ngIf="assigneeLookup.photo; else fallbackAvatar">
+            <img [src]="assigneeLookup.photo" [alt]="assigneeLookup.name">
+          </div>
+          <ng-template #fallbackAvatar>
+            <div class="lookup-avatar fallback-avatar">{{ assigneeLookup.name.charAt(0) }}</div>
+          </ng-template>
+          <div class="lookup-details">
+            <strong>{{ assigneeLookup.name }}</strong>
+            <span>Agent ID: {{ assigneeLookup.id }}</span>
+          </div>
+        </div>
       </div>
     </div>
 

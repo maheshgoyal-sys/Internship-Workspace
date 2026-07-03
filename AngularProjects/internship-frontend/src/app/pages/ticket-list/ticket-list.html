@@ -209,7 +209,7 @@
     <div class="assignee">
       <div class="avatar">
         <img
-          [src]="'https://api.dicebear.com/10.x/lorelei/svg?seed=' + (t.assigned_user || 'unassigned')"
+          [src]="t.assigned_user_photo || ('https://api.dicebear.com/10.x/lorelei/svg?seed=' + (t.assigned_user || 'unassigned'))"
           [alt]="t.assigned_user || 'Unassigned'"
           (error)="onAvatarError($event)">
       </div>

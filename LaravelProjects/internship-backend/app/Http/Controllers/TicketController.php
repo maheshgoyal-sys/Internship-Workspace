@@ -3,39 +3,73 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Department;
 use App\Models\Ticket;
-
+use App\Models\User;
 
 class TicketController extends Controller
 {
     // Get all tickets
-   public function index()
-{
-    $tickets = Ticket::with(['assignedUser:id,name', 'user:id,name', 'department:id,name'])
-        ->get()
-        ->map(function ($t) {
-            return [
-                'id' => $t->id,
-                'title' => $t->title,
-                'description' => $t->description,
-                'status' => $t->status,
-                'priority' => $t->priority,
+    public function index(Request $request)
+    {
+        if ($request->filled('department_id')) {
+            $department = Department::find($request->department_id);
 
-                // 🔥 FIX: SIMPLE FIELD FOR FRONTEND
-                'assigned_user' => $t->assignedUser?->name,
+            return response()->json([
+                'success' => true,
+                'lookup' => [
+                    'department' => $department ? [
+                        'id' => $department->id,
+                        'name' => $department->name,
+                    ] : null,
+                ],
+            ]);
+        }
 
-                'created_at' => $t->created_at,
-            ];
-        });
+        if ($request->filled('assigned_user_id')) {
+            $user = User::find($request->assigned_user_id);
+            $department = $user && $user->department_id ? Department::find($user->department_id) : null;
+            $photo = $user ? $this->buildUserPhoto($user) : null;
 
- 
+            return response()->json([
+                'success' => true,
+                'lookup' => [
+                    'assigned_user' => $user ? [
+                        'id' => $user->id,
+                        'name' => $user->name,
+                        'department' => $department?->name,
+                        'photo' => $photo,
+                    ] : null,
+                ],
+            ]);
+        }
 
+        $tickets = Ticket::with(['assignedUser:id,name', 'user:id,name', 'department:id,name'])
+            ->get()
+            ->map(function ($t) {
+                return [
+                    'id' => $t->id,
+                    'title' => $t->title,
+                    'description' => $t->description,
+                    'status' => $t->status,
+                    'priority' => $t->priority,
+                    'assigned_user' => $t->assignedUser?->name,
+                    'assigned_user_photo' => $t->assignedUser ? $this->buildUserPhoto($t->assignedUser) : null,
+                    'created_at' => $t->created_at,
+                ];
+            });
 
-    return response()->json([
-        'success' => true,
-        'data' => $tickets
-    ]);
-}
+        return response()->json([
+            'success' => true,
+            'data' => $tickets
+        ]);
+    }
+
+    private function buildUserPhoto(User $user): string
+    {
+        $seed = urlencode($user->name ?: $user->email ?: $user->id);
+        return "https://api.dicebear.com/10.x/thumbs/svg?seed={$seed}";
+    }
 
 public function show($id)
 {
@@ -49,16 +83,14 @@ public function show($id)
     }
 
     return response()->json([
-  
     'id' => $ticket->id,
     'title' => $ticket->title,
     'description' => $ticket->description,
     'status' => $ticket->status,
     'priority' => $ticket->priority,
-
     'assigned_user' => $ticket->assignedUser?->name,
+    'assigned_user_photo' => $ticket->assignedUser ? $this->buildUserPhoto($ticket->assignedUser) : null,
     'department' => $ticket->department?->name,
-
     'created_at' => $ticket->created_at
 ]);
    
@@ -76,15 +108,17 @@ public function store(Request $request)
         'assigned_user_id' => 'nullable|exists:users,id'
     ]);
 
-    $ticket = Ticket::create([
-        'user_id' => $request->user_id,
-        'department_id' => $request->department_id,
-        'title' => $request->title,
-        'description' => $request->description,
+    $payload = [
+        'user_id' => (int) $request->user_id,
+        'department_id' => (int) $request->department_id,
+        'title' => trim((string) $request->title),
+        'description' => trim((string) $request->description),
         'priority' => $request->priority,
-        'assigned_user_id' => $request->assigned_user_id, // 👈 ADD THIS
+        'assigned_user_id' => $request->filled('assigned_user_id') ? (int) $request->assigned_user_id : null,
         'status' => 'Open'
-    ]);
+    ];
+
+    $ticket = Ticket::create($payload);
 
     return response()->json([
         'success' => true,
@@ -126,4 +160,5 @@ public function store(Request $request)
             'message' => 'Ticket Deleted Successfully'
         ]);
     }
+
 }

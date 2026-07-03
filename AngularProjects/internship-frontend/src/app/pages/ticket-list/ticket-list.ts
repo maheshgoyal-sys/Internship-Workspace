@@ -11,6 +11,7 @@ export interface Ticket {
   priority: string;
   assigned_to?: string;
   assigned_user?: string;
+  assigned_user_photo?: string;
   assignee?: string;
   created_at?: string;
   createdAt?: string;
