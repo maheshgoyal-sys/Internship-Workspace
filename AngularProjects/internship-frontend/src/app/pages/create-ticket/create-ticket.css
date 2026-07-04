@@ -242,11 +242,19 @@ h1{
   background:#fafbfc;
 }
 .lookup-avatar{
-  width:38px;
-  height:38px;
-  border-radius:50%;
-  overflow:hidden;
-  flex-shrink:0;
+  /* .avatar { */
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #99f6e4;
+  color: #115e59;
+  font-size: 11px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+/* } */
 }
 .lookup-avatar img{width:100%;height:100%;object-fit:cover;display:block;}
 .fallback-avatar{

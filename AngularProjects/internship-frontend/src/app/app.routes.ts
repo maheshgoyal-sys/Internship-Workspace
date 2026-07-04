@@ -6,6 +6,7 @@ import { Contact } from './pages/contact/contact';
 import { HomeComponent } from './pages/home/home.component';
 import { TicketList } from './pages/ticket-list/ticket-list';
 import { TicketDetail } from './pages/ticket-detail/ticket-detail';
+import { EditTicket } from './pages/edit-ticket/edit-ticket';
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
@@ -16,5 +17,6 @@ export const routes: Routes = [
   { path: 'tickets', component: TicketList },
   { path: 'tickets/create', component: CreateTicket },
   { path: 'ticket/:id', component: TicketDetail} ,
+  { path: 'tickets/edit/:id', component: EditTicket} ,
   { path: '**', redirectTo: 'dashboard' }
 ];

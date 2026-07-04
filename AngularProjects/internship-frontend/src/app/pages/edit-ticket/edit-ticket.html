@@ -1,0 +1,203 @@
+<div class="page-head">
+
+  <div class="breadcrumb">
+    <a>Tickets</a>
+    <span class="crumb-sep">&gt;</span>
+    <!-- <a>TKT-8422</a> -->
+    <!-- <span class="crumb-sep">&gt;</span> -->
+    <span class="crumb-current">Edit Ticket</span>
+  </div>
+
+  <div class="head-row">
+
+    <div class="head-text">
+      <h1>Edit Ticket: <span class="head-accent">Profile update error</span></h1>
+      <div class="subtext">
+        <!-- <span>Ticket ID: <b>#TKT-8422</b></span> -->
+        <span class="dot-sep"></span>
+        <!-- <span>Created: <b>Oct 24, 2023, 9:14 AM</b> by Sarah Jenkins</span> -->
+      </div>
+    </div>
+
+    <div class="head-actions">
+      <button type="button" class="btn btn-ghost">Cancel</button>
+      <button
+        class="btn btn-primary"
+        type="submit"
+        form="ticketForm"
+        [disabled]="ticketForm.invalid">
+        Save Changes
+      </button>
+    </div>
+
+  </div>
+
+</div>
+
+<form
+  id="ticketForm"
+  [formGroup]="ticketForm"
+  (ngSubmit)="onSubmit()"
+  class="ticket-form">
+
+  <div class="card">
+
+    <div class="card-head">
+      <span class="card-head-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <polyline points="14 2 14 8 20 8"/>
+          <path d="m10.4 12.6 2 2"/>
+          <path d="M13.5 10.5a1.5 1.5 0 1 1 2.1 2.1L9 19.2 6 20l.8-3 6.7-6.5z"/>
+        </svg>
+      </span>
+      <span class="card-head-title">Ticket Specifications</span>
+    </div>
+
+    <!-- Title -->
+    <div class="field">
+      <label>Ticket Title</label>
+
+      <input
+        type="text"
+        formControlName="title"
+        placeholder="Enter ticket title"
+        [class.invalid-input]="(ticketForm.get('title')?.touched || submitted) && ticketForm.get('title')?.invalid">
+
+      <div class="error"
+        *ngIf="(ticketForm.get('title')?.touched || submitted) && ticketForm.get('title')?.invalid">
+        <small *ngIf="ticketForm.get('title')?.errors?.['required']">
+          Title is required.
+        </small>
+        <small *ngIf="ticketForm.get('title')?.errors?.['minlength']">
+          Minimum 5 characters.
+        </small>
+        <small *ngIf="ticketForm.get('title')?.errors?.['maxlength']">
+          Maximum 100 characters.
+        </small>
+      </div>
+    </div>
+
+    <!-- Description -->
+    <div class="field">
+      <label>Description</label>
+
+      <textarea
+        rows="6"
+        formControlName="description"
+        placeholder="Describe the issue"
+        [class.invalid-input]="(ticketForm.get('description')?.touched || submitted) && ticketForm.get('description')?.invalid"></textarea>
+
+      <div class="error"
+        *ngIf="(ticketForm.get('description')?.touched || submitted) && ticketForm.get('description')?.invalid">
+        <small *ngIf="ticketForm.get('description')?.errors?.['required']">
+          Description is required.
+        </small>
+        <small *ngIf="ticketForm.get('description')?.errors?.['minlength']">
+          Minimum 20 characters.
+        </small>
+      </div>
+    </div>
+
+    <!-- Status -->
+    <div class="field">
+      <label>Ticket Status</label>
+
+      <div class="select-wrap">
+        <select formControlName="status">
+          <option value="Open">Open</option>
+          <option value="In Progress">In Progress</option>
+          <option value="Closed">Closed</option>
+        </select>
+        <span class="select-caret">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"/>
+          </svg>
+        </span>
+      </div>
+    </div>
+
+    <!-- Priority (segmented) -->
+    <div class="field">
+      <label>Priority Level</label>
+
+      <div class="segmented" role="radiogroup">
+
+        <label
+          class="segment"
+          [class.selected]="ticketForm.get('priority')?.value==='Low'">
+          <input
+            type="radio"
+            formControlName="priority"
+            value="Low">
+          <span>Low</span>
+        </label>
+
+        <label
+          class="segment"
+          [class.selected]="ticketForm.get('priority')?.value==='Medium'">
+          <input
+            type="radio"
+            formControlName="priority"
+            value="Medium">
+          <span>Medium</span>
+        </label>
+
+        <label
+          class="segment"
+          [class.selected]="ticketForm.get('priority')?.value==='High'">
+          <input
+            type="radio"
+            formControlName="priority"
+            value="High">
+          <span>High</span>
+        </label>
+
+      </div>
+    </div>
+
+    <!-- Assigned agent -->
+    <div class="field">
+      <label class="label-caps">Assigned Agent ID</label>
+
+      <div class="select-wrap">
+        <input
+          type="number"
+          formControlName="assigned_user_id"
+          placeholder="Enter Agent ID">
+        <span class="select-caret">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"/>
+          </svg>
+        </span>
+      </div>
+
+      <div
+        class="lookup-pill"
+        [ngClass]="{
+          'lookup-found': assigneeStatus==='found',
+          'lookup-loading': assigneeStatus==='loading',
+          'lookup-not-found': assigneeStatus==='not-found'
+        }"
+        *ngIf="assigneeMessage">
+        {{ assigneeMessage }}
+      </div>
+
+      <div class="lookup-card" *ngIf="assigneeLookup">
+        <div class="lookup-avatar" *ngIf="assigneeLookup.photo">
+          <img [src]="assigneeLookup.photo" [alt]="assigneeLookup.name">
+        </div>
+        <div class="lookup-details">
+          <strong>{{ assigneeLookup.name }}</strong>
+          <span>Agent ID : {{ assigneeLookup.id }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-error" *ngIf="ticketForm.invalid && submitted">
+      Please fix the highlighted fields before saving.
+    </div>
+
+  </div>
+
+</form>

@@ -262,10 +262,9 @@ onAvatarError(event: Event): void {
   this.router.navigate(['/ticket', id]);
 }
 
-  editTicket(id: number): void {
-    // navigate to edit route
-    alert(`Edit ticket #${id}`);
-  }
+  editTicket(id: number) {
+  this.router.navigate(['/tickets/edit', id]);
+}
 
   deleteTicket(id: number): void {
     if (!confirm(`Delete ticket #${id}?`)) return;

@@ -68,7 +68,7 @@ class TicketController extends Controller
     private function buildUserPhoto(User $user): string
     {
         $seed = urlencode($user->name ?: $user->email ?: $user->id);
-        return "https://api.dicebear.com/10.x/thumbs/svg?seed={$seed}";
+        return "https://api.dicebear.com/10.x/lorelei/svg?seed={$seed}";
     }
 
 public function show($id)
@@ -131,6 +131,14 @@ public function store(Request $request)
     // Update ticket
     public function update(Request $request, $id)
 {
+    $request->validate([
+        'title' => 'required|string|max:255',
+        'description' => 'required|string',
+        'priority' => 'required|in:Low,Medium,High',
+        'status' => 'required|in:Open,In Progress,Closed',
+        'assigned_user_id' => 'nullable|exists:users,id',
+    ]);
+
     $ticket = Ticket::findOrFail($id);
 
     $ticket->update([
@@ -138,7 +146,7 @@ public function store(Request $request)
         'description' => $request->description,
         'priority' => $request->priority,
         'status' => $request->status,
-        'assigned_user_id' => $request->assigned_user_id // 👈 ADD THIS
+        'assigned_user_id' => $request->assigned_user_id,
     ]);
 
     return response()->json([
@@ -147,7 +155,6 @@ public function store(Request $request)
         'data' => $ticket
     ]);
 }
-
     // Delete ticket
     public function destroy($id)
     {
