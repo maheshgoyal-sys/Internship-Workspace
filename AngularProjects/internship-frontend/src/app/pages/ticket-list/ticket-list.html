@@ -335,7 +335,7 @@
 
   <td class="col-date">{{ ticketDate(t) }}</td>
 
-  <td class="col-actions">
+  <!-- <td class="col-actions">
     <div class="actions">
       <button class="action-btn view" title="View" (click)="viewTicket(t.id); $event.stopPropagation()">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -358,7 +358,42 @@
         </svg>
       </button>
     </div>
-  </td>
+  </td> -->
+  <td class="col-actions">
+  <div class="actions">
+
+    <!-- View -->
+    <button
+      class="action-btn view"
+      title="View Ticket"
+      (click)="viewTicket(t.id); $event.stopPropagation()">
+
+      <i class="fa-solid fa-eye"></i>
+
+    </button>
+
+    <!-- Edit -->
+    <button
+      class="action-btn edit"
+      title="Edit Ticket"
+      (click)="editTicket(t.id); $event.stopPropagation()">
+
+      <i class="fa-solid fa-pen-to-square"></i>
+
+    </button>
+
+    <!-- Delete -->
+    <button
+      class="action-btn delete"
+      title="Delete Ticket"
+      (click)="requestDelete(t); $event.stopPropagation()">
+
+      <i class="fa-solid fa-trash-can"></i>
+
+    </button>
+
+  </div>
+</td>
 </tr>
       </tbody>
     </table>
