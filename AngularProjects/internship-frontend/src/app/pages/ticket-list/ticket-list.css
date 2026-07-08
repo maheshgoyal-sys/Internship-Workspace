@@ -21,6 +21,7 @@
   padding: 28px 32px;
   background: var(--surface);
   min-height: 100%;
+  position: relative;
 }
 
 /* ── Page header ─────────────────────────────────────────────────── */
@@ -92,6 +93,29 @@
 }
 
 .btn-clear:hover { background: var(--surface); }
+.btn-clear:disabled { opacity: 0.5; cursor: default; }
+
+.btn-danger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: none;
+  background: #dc2626;
+  color: #fff;
+  border-radius: var(--radius);
+  padding: 9px 16px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: var(--font);
+  transition: background 0.12s;
+  white-space: nowrap;
+  min-width: 118px;
+}
+
+.btn-danger:hover:not(:disabled) { background: #b91c1c; }
+.btn-danger:disabled { opacity: 0.6; cursor: default; }
 
 .btn-retry {
   margin-left: 12px;
@@ -317,6 +341,35 @@ td {
   font-size: 13px;
   vertical-align: middle;
 }
+.priority-icon{
+    width:18px;
+    height:18px;
+    flex-shrink:0;
+}
+
+/* Critical */
+.badge-critical{
+    background:#FEE2E2;
+    color:#DC2626;
+}
+
+/* High */
+.badge-high{
+    background:#FEF3C7;
+    color:#D97706;
+}
+
+/* Medium */
+.badge-medium{
+    background:#DBEAFE;
+    color:#2563EB;
+}
+
+/* Low */
+.badge-low{
+    background:#DCFCE7;
+    color:#16A34A;
+}
 
 /* ── Column widths ───────────────────────────────────────────────── */
 .col-id       { width: 52px;  color: var(--text-secondary); font-weight: 500; }
@@ -347,9 +400,124 @@ td {
   border-radius: 99px;
   font-size: 12px;
   font-weight: 500;
-  white-space: nowrap;
+  white-space: nowrap; 
+}
+/* .badge{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:6px 14px;
+    border-radius:999px;
+    font-size:13px;
+    font-weight:600;
+} */
+
+/* .status-icon{
+    width:18px;
+    height:18px;
+    flex-shrink:0;
 }
 
+/* Open */
+/* Container column styling */
+.col-status {
+  padding: 8px;
+  vertical-align: middle;
+}
+
+/* Base Badge Styling */
+
+/* Base Icon Styling */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px 6px 10px;
+  border-radius: 999px;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  line-height: 1;
+  white-space: nowrap;
+  user-select: none;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+
+.badge:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+}
+
+/* Icon inside the badge */
+.badge .status-icon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* --------- Status variants --------- */
+
+/* OPEN / COMPLETED — green */
+.status-open {
+  background-color: #d9f5e5;
+  color: #0f8a4c;
+}
+.status-open .status-icon {
+  color: #0f8a4c;
+}
+
+/* IN PROGRESS / PENDING — orange */
+.status-pending,
+.status-in-progress {
+  background-color: #fde3c8;
+  color: #e07a17;
+}
+.status-pending .status-icon,
+.status-in-progress .status-icon {
+  color: #e07a17;
+}
+
+/* FAILED / CLOSED — red/pink */
+.status-failed,
+.status-closed {
+  background-color: #fcdada;
+  color: #d63d55;
+}
+.status-failed .status-icon,
+.status-closed .status-icon {
+  color: #d63d55;
+}
+
+/* Optional: subtle border for extra depth (like screenshot) */
+.badge {
+  border: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+/* --- STATUS VARIATIONS (Dynamic Classes) --- */
+
+/* Completed / Open (Green) */
+.status-open, 
+.status-completed {
+  background-color: #e6f6f1; /* Light mint green */
+  color: #00875a;            /* Deep emerald green */
+}
+
+/* Pending / In Progress (Orange) */
+.status-pending, 
+.status-progress {
+  background-color: #fff4e5; /* Soft light orange */
+  color: #e07a22;            /* Vibrant dark orange */
+}
+
+/* Failed / Closed (Red) */
+.status-failed, 
+.status-closed {
+  background-color: #ffeef0; /* Pale rose/red background */
+  color: #de350b;            /* Sharp warning red */
+}
 .badge-open        { background: #dcfce7; color: #15803d; }
 .badge-in-progress { background: #ccfbf1; color: #0f766e; }
 .badge-closed      { background: #f1f5f9; color: #475569; }
@@ -460,6 +628,173 @@ td {
   font-size: 13px;
 }
 
+/* ── Delete confirmation modal ───────────────────────────────────── */
+.tl-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 16px;
+  animation: tl-fade-in 0.12s ease-out;
+}
+
+@keyframes tl-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.tl-modal {
+  background: var(--white);
+  border-radius: 12px;
+  padding: 24px;
+  width: 100%;
+  max-width: 380px;
+  box-shadow: 0 20px 40px -8px rgba(15, 23, 42, 0.25);
+  animation: tl-modal-in 0.15s ease-out;
+}
+
+@keyframes tl-modal-in {
+  from { opacity: 0; transform: translateY(6px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.tl-modal-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #fef2f2;
+  color: #dc2626;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 14px;
+}
+
+.tl-modal-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 8px;
+  color: var(--text-primary);
+}
+
+.tl-modal-body {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+  margin: 0 0 20px;
+}
+
+.tl-modal-body strong { color: var(--text-primary); }
+
+.tl-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+/* ── Toast notification ──────────────────────────────────────────── */
+/* .tl-toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: var(--radius);
+  font-size: 13px;
+  font-weight: 500;
+  box-shadow: 0 12px 24px -6px rgba(15, 23, 42, 0.2);
+  z-index: 1100;
+  max-width: 380px;
+  animation: tl-toast-in 0.18s ease-out;
+}
+
+@keyframes tl-toast-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); } */
+/* } */
+.tl-toast {
+  position: fixed;
+  /* Top-Right position */
+  top: 24px;
+  right: 24px;
+  
+  display: flex;
+  align-items: center;
+  gap: 12px; /* Thoda gap badhaya for breathing room */
+  padding: 12px 16px;
+  border-radius: calc(var(--radius) + 2px); /* Slightly rounder handles modern look better */
+  font-size: 13px;
+  font-weight: 500;
+  
+  /* Modern Glassmorphism & Border Styling */
+  background: rgba(255, 255, 255, 0.85); /* Dark mode ke liye isko rgba(15, 23, 42, 0.85) kar sakte ho */
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(15, 23, 42, 0.08); 
+  
+  /* Modern Soft Shadow */
+  box-shadow: 
+    0 4px 6px -1px rgba(0, 0, 0, 0.05), 
+    0 10px 15px -3px rgba(0, 0, 0, 0.08);
+  
+  z-index: 1100;
+  max-width: 380px;
+  
+  /* Smooth Slide-in from top/right animation */
+  animation: tl-toast-in 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Modern Animation: Top-right se halka slide aur fade-in */
+@keyframes tl-toast-in {
+  from {
+    transform: translateY(-10px) scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+.tl-toast.success {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  color: #15803d;
+}
+
+.tl-toast.error {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #b91c1c;
+}
+
+.tl-toast svg { flex-shrink: 0; }
+
+.tl-toast-msg {
+  flex: 1;
+  line-height: 1.4;
+}
+
+.tl-toast-close {
+  background: none;
+  border: none;
+  color: inherit;
+  opacity: 0.6;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px;
+  flex-shrink: 0;
+}
+
+.tl-toast-close:hover { opacity: 1; }
+
 /* ── Responsive ──────────────────────────────────────────────────── */
 @media (max-width: 900px) {
   .tl-page { padding: 16px; }
@@ -483,4 +818,11 @@ td {
 @media (max-width: 600px) {
   .tl-stats { grid-template-columns: 1fr 1fr; gap: 10px; }
   .tl-page-header { flex-direction: column; gap: 12px; }
+
+  .tl-toast {
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+    max-width: none;
+  }
 }

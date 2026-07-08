@@ -55,6 +55,15 @@ export class TicketList implements OnInit {
   statInProgress = 0;
   statClosed = 0;
 
+  // delete confirmation modal
+  showDeleteModal = false;
+  ticketToDelete: Ticket | null = null;
+  deleting = false;
+
+  // toast notification
+  toast: { message: string; type: 'success' | 'error' } | null = null;
+  private toastTimeoutId: ReturnType<typeof setTimeout> | null = null;
+
   constructor(
   private http: HttpClient,
   private router: Router
@@ -244,9 +253,8 @@ export class TicketList implements OnInit {
       d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })
     );
   }
-// Add this method inside your TicketList component class (ticket-list.ts)
 
-onAvatarError(event: Event): void {
+  onAvatarError(event: Event): void {
      const img = event.target as HTMLImageElement;
      img.style.display = 'none';
      const fallback = img.nextElementSibling as HTMLElement | null;
@@ -266,16 +274,89 @@ onAvatarError(event: Event): void {
   this.router.navigate(['/tickets/edit', id]);
 }
 
-  deleteTicket(id: number): void {
-    if (!confirm(`Delete ticket #${id}?`)) return;
-    this.http.delete(`${this.API}/tickets/${id}`).subscribe({
-      next: () => {
-        this.allTickets = this.allTickets.filter((t) => t.id !== id);
-        this.buildDerivedState();
-      },
-      error: (err) => alert('Delete failed: ' + err.message),
-    });
+  // ── delete flow ─────────────────────────────────────
+
+  /** Opens the confirmation dialog for a given ticket. Does not delete anything yet. */
+  requestDelete(ticket: Ticket): void {
+    this.ticketToDelete = ticket;
+    this.showDeleteModal = true;
   }
+
+  /** Cancels the pending delete and closes the confirmation dialog. */
+  cancelDelete(): void {
+    if (this.deleting) return; // don't allow closing mid-request
+    this.showDeleteModal = false;
+    this.ticketToDelete = null;
+  }
+
+  /** Called when the user confirms deletion in the dialog. */
+  // confirmDelete(): void {
+  //   if (!this.ticketToDelete) return;
+  //   const ticket = this.ticketToDelete;
+  //   this.deleting = true;
+
+  //   this.http.delete(`${this.API}/tickets/${ticket.id}`).subscribe({
+  //     next: () => {
+        
+  //       this.allTickets = this.allTickets.filter((t) => t.id !== ticket.id);
+  //       this.buildDerivedState();
+  //       this.deleting = false;
+  //       this.showDeleteModal = false;
+  //       this.ticketToDelete = null;
+  //       this.showToast(`Ticket #${ticket.id} "${ticket.title}" was deleted successfully.`, 'success');
+  //     },
+  //     error: (err) => {
+  //       console.error('Failed to delete ticket', err);
+  //       this.deleting = false;
+  //       this.showDeleteModal = false;
+  //       this.ticketToDelete = null;
+
+  //       const serverMessage = err?.error?.detail || err?.error?.message;
+  //       const message =
+  //         serverMessage ||
+  //         (err?.status === 0
+  //           ? 'Could not reach the server. Check your connection and try again.'
+  //           : err?.status
+  //           ? `Server responded with an error (${err.status}). Please try again.`
+  //           : 'Something went wrong while deleting the ticket. Please try again.');
+
+  //       this.showToast(`Failed to delete ticket #${ticket.id}: ${message}`, 'error');
+  //     },
+  //   });
+  // }
+  confirmDelete(): void {
+  if (!this.ticketToDelete) return;
+
+  const ticket = this.ticketToDelete;
+  this.deleting = true;
+
+  console.log("Delete started");
+
+  this.http.delete(`${this.API}/tickets/${ticket.id}`).subscribe({
+    next: (res) => {
+      console.log("NEXT CALLED");
+      console.log(res);
+
+      this.allTickets = this.allTickets.filter((t) => t.id !== ticket.id);
+
+      this.buildDerivedState();
+
+      this.deleting = false;
+      console.log("deleting =", this.deleting);
+
+      this.showDeleteModal = false;
+      this.ticketToDelete = null;
+
+      console.log("Before toast");
+      this.showToast("Deleted Successfully", "success");
+      console.log("After toast", this.toast);
+    },
+
+    error: (err) => {
+      console.log("ERROR", err);
+    }
+  });
+}
 
  createTicket(): void {
   this.router.navigate(['/tickets/create']);
@@ -283,5 +364,35 @@ onAvatarError(event: Event): void {
 
   refresh(): void {
     this.fetchTickets();
+  }
+
+  // ── toast notifications ─────────────────────────────
+
+  showToast(message: string, type: 'success' | 'error'): void {
+    if (this.toastTimeoutId) {
+      clearTimeout(this.toastTimeoutId);
+    }
+    this.toast = { message, type };
+    this.toastTimeoutId = setTimeout(() => {
+      this.toast = null;
+      this.toastTimeoutId = null;
+    }, 4000);
+  }
+//   showToast(message: string, type: 'success' | 'error'): void {
+//   alert(message);
+
+//   this.toast = { message, type };
+
+//   setTimeout(() => {
+//     this.toast = null;
+//   }, 4000);
+// }
+
+  dismissToast(): void {
+    if (this.toastTimeoutId) {
+      clearTimeout(this.toastTimeoutId);
+      this.toastTimeoutId = null;
+    }
+    this.toast = null;
   }
 }
