@@ -1,0 +1,17 @@
+.otp-box{
+    width:350px;
+    margin:100px auto;
+    text-align:center;
+}
+
+input{
+    width:100%;
+    padding:10px;
+    font-size:16px;
+}
+
+button{
+    margin-top:20px;
+    padding:10px 25px;
+    cursor:pointer;
+}

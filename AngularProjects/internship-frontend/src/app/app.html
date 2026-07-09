@@ -1,9 +1,17 @@
-<app-header></app-header>
+@if (router.url !== '/login' && router.url !== '/otp') {
 
-<app-sidebar></app-sidebar>
+  <app-header></app-header>
+
+  <app-sidebar></app-sidebar>
+
+}
 
 <main>
   <router-outlet></router-outlet>
 </main>
 
-<app-footer></app-footer>
+@if (router.url !== '/login' && router.url !== '/otp') {
+
+  <app-footer></app-footer>
+
+}
